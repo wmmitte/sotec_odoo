@@ -1,0 +1,11 @@
+/datas
+/config
+/sotec-odoo-db-data
+/sotec-odoo-web-data
+.env
+docker-compose.override.yml
+docker-compose.yml
+/.idea
+/.vscode
+.DS_Store
+*.zip
