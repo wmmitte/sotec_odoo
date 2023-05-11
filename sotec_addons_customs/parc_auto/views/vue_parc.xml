@@ -102,6 +102,90 @@
 		</field>
 	</record>
 
+	<!-- vehicule Formulaire Herité -->
+	<record model="ir.ui.view" id="fleet_vehicule_parc_view_form">
+		<field name="name">fleet.vehicule.parc.form</field>
+		<field name="model">fleet.vehicle</field>
+		<field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='description']/.." position="before">
+				<group string="Assurance">
+					<field name="assureur_id"/>
+					<field name="date_souscription"/>
+					<field name="duree_souscription"/>
+					<field name="date_expiration"/>
+					<field name="montant_souscription"/>
+					<field name="couverture_assurance"/>
+				</group>
+				<group string="Visite Technique">
+					<field name="centre_controle_id"/>
+					<field name="date_visite_technique"/>
+					<field name="date_expiration_visite_technique"/>
+					<field name="duree_visite"/>
+					<field name="montant_visite"/>
+				</group>
+				<group string="Taxes ">
+					<field name="annee_paiement"/>
+					<field name="date_paiement_taxe"/>
+					<field name="montant_taxe"/>
+				</group>
+			</xpath>
+
+		</field>
+	</record>
+
+	<!-- vue fleet.vehicle.parc.assurance.history tree-->
+	<record model="ir.ui.view" id="view_fleet_vehicle_parc_assurance_history_tree">
+		<field name="name">view.fleet.vehicle.parc.assurance.history.tree</field>
+		<field name="model">fleet.vehicle.parc.assurance.history</field>
+		<field name="priority" eval="16"/>
+		<field name="arch" type="xml">
+			<tree string="Historique des assurances" create="0" delete="0">
+				<field name="vehicule_id"/>
+				<field name="assureur_id"/>
+				<field name="date_souscription"/>
+				<field name="duree_souscription"/>
+				<field name="date_expiration" readonly="1"/>
+				<field name="montant_souscription"/>
+				<field name="couverture_assurance"/>
+			</tree>
+		</field>
+	</record>
+
+	<!-- vue fleet.vehicle.parc.visite.technique.history tree-->
+	<record model="ir.ui.view" id="view_fleet_vehicle_parc_visite_technique_history_tree">
+		<field name="name">view.fleet.vehicle.parc.visite.technique.history.tree</field>
+		<field name="model">fleet.vehicle.parc.visite.technique.history</field>
+		<field name="priority" eval="16"/>
+		<field name="arch" type="xml">
+			<tree string="Historique des visites techniques" create="0" delete="0">
+				<field name="vehicule_id"/>
+				<field name="centre_controle_id"/>
+				<field name="date_visite_technique"/>
+				<field name="date_expiration_visite_technique" readonly="1"/>
+				<field name="duree_visite"/>
+				<field name="montant_visite"/>
+
+			</tree>
+		</field>
+	</record>
+
+	<!-- Action fleet.vehicle.parc.assurance.history -->
+	<record model="ir.actions.act_window" id="act_fleet_vehicle_parc_assurance_history">
+		<field name="name">Historique des assurances</field>
+		<field name="res_model">fleet.vehicle.parc.assurance.history</field>
+		<field name="view_mode">tree</field>
+		<field name="context">{'group_by':['vehicule_id']}</field>
+	</record>
+
+	<!-- Action fleet.vehicle.parc.visite.technique.history -->
+	<record model="ir.actions.act_window" id="act_fleet_vehicle_parc_visite_technique_history">
+		<field name="name">Historique des visite.techniques</field>
+		<field name="res_model">fleet.vehicle.parc.visite.technique.history</field>
+		<field name="view_mode">tree</field>
+		<field name="context">{'group_by':['vehicule_id']}</field>
+	</record>
+
 	<!-- Action fleet type de conducteurs-->
 	<record model="ir.actions.act_window" id="act_liste_conducteur">
 		<field name="name">Liste des conducteurs</field>
@@ -207,7 +291,12 @@
 	</record> -->
 
 	<!-- Menu-->
+	<menuitem id="fleet_vehicle_etats_menu" parent="fleet.menu_root" name="Etats" sequence = "99"/>
+	<menuitem id="fleet_vehicle_historique_assurance_menu" parent="fleet_vehicle_etats_menu" name="Historique Assurances" sequence = "1" action="act_fleet_vehicle_parc_assurance_history"/>
+	<menuitem id="fleet_vehicle_historique_visite_technique_menu" parent="fleet_vehicle_etats_menu" name="Historique Visites Techniques" sequence = "2" action="act_fleet_vehicle_parc_visite_technique_history"/>
 	<menuitem id="fleet_vehicle_types_permis_menu" parent="fleet.fleet_configuration" name="Types de permis" sequence = "7" action="act_type_permis"/>
+	<menuitem id="fleet.fleet_vehicle_model_brand_menu" active="False"/>
+	<menuitem id="parc_auto.fleet_vehicle_model_brand_menu" parent="fleet.fleet_configuration" name="Constructeurs" sequence = "6" action="fleet.fleet_vehicle_model_brand_action"/>
 	<menuitem id="fleet_vehicle_drivers" parent="fleet.fleet_configuration" name="Conducteurs" sequence = "8" action="act_liste_conducteur"/>
 
 	<menuitem id="fleet_vehicle_fuel_menu" parent="fleet.fleet_vehicles" name="Suivi du carburant" sequence = "9" action="act_fleet_fuel"/>
