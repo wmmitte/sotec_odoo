@@ -4,3 +4,4 @@ access_fleet_type_permis,access.fleet.type.permis,model_fleet_type_permis,base.g
 access_fleet_fuel,access.fleet.fuel,model_fleet_fuel,base.group_user,1,1,1,1
 fleet_vehicle_parc_assurance_history,access.fleet.vehicle.parc.assurance.history,model_fleet_vehicle_parc_assurance_history,base.group_user,1,1,1,1
 fleet_vehicle_parc_visite_technique_history,access.fleet.vehicle.parc.visite.technique.history,model_fleet_vehicle_parc_visite_technique_history,base.group_user,1,1,1,1
+access_fleet_chauffeur,access.fleet.chauffeur,model_fleet_chauffeur,base.group_user,1,1,1,1

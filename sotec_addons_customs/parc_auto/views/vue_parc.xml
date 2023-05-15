@@ -3,47 +3,9 @@
 	<!--Definition de la vue-->
 
 
-	<!-- vue fleet type de permis tree-->
-	<record model="ir.ui.view" id="view_fleet_type_permis_tree">
-		<field name="name">view.fleet.type.permis.tree</field>
-		<field name="model">fleet.type.permis</field>
-		<field name="priority" eval="16"/>
-		<field name="arch" type="xml">
-			<tree string="Liste des catégories de permis">
-				<field name="name"/>
-				<field name="description"/>
-			</tree>
-		</field>
-	</record>
 
-	<!-- vue fleet type de permis form-->
-	<record model="ir.ui.view" id="view_fleet_type_permis_form">
-		<field name="name">view.fleet.type.permis.form</field>
-		<field name="model">fleet.type.permis</field>
-		<field name="priority" eval="16"/>
-		<field name="arch" type="xml">
-			<form string="Liste des categories de permis">
-				<sheet>
-					<group>
-						<field name="name" style="width:50%"/>
-						<field name="description" style="width:50%"/>
-					</group>
-				</sheet>
-
-			</form>
-		</field>
-	</record>
-
-	<!-- Action fleet type de permis-->
-	<record model="ir.actions.act_window" id="act_type_permis">
-		<field name="name">Liste des catégories de permis</field>
-		<field name="res_model">fleet.type.permis</field>
-		<field name="view_mode">tree,form</field>
-	</record>
-
-
-	<record model="ir.ui.view" id="res_chauffeur_form">
-		<field name="name">res.chauffeur.form</field>
+	<record model="ir.ui.view" id="res_prestataire_form">
+		<field name="name">res.prestataire.form</field>
 		<field name="model">res.partner</field>
 		<field name="inherit_id" ref="base.view_partner_form"/>
 		<field name="arch" type="xml">
@@ -58,21 +20,8 @@
 				<attribute name = "invisible">True</attribute>
 			</xpath>
 
-			<xpath expr="//field[@name='category_id']" position="attributes">
-				<attribute name = "invisible">True</attribute>
-			</xpath>
-
-			<xpath expr="//field[@name='website']" position="after">
-				<field name = "permis"/>
-				<field name = "dte_expire"/>
-			</xpath>
-
-			<xpath expr="//field[@name='vat']" position="after">
-				<field name = "type_permis"/>
-			</xpath>
-
 			<xpath expr="//field[@name='vat']" position="attributes">
-				<attribute name = "invisible">True</attribute>
+				<attribute name = "invisible">False</attribute>
 			</xpath>
 
 			<xpath expr="//field[@name='parent_id']" position="attributes">
@@ -92,9 +41,8 @@
 			</xpath>
 
 			<xpath expr="//page[@name='contact_addresses']" position="attributes">
-				<attribute name = "invisible">True</attribute>
+				<attribute name = "invisible">False</attribute>
 			</xpath>
-
 
 			<xpath expr="//page[@name='internal_notes']" position="attributes">
 				<attribute name = "invisible">True</attribute>
@@ -108,20 +56,56 @@
 		<field name="model">fleet.vehicle</field>
 		<field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
 		<field name="arch" type="xml">
+			<field name="driver_id" position="replace">
+				<field name="chauffeur_id"/>
+			</field>
+			<field name="chauffeur_id" position="after">
+				<field name="identite_chauffeur"/>
+				<field name="telephone_chauffeur"/>
+				<field name="type_permis_chauffeur"/>
+				<field name="permis_chauffeur"/>
+			</field>
+			<xpath expr="//label[@for='future_driver_id']" position="attributes">
+				<attribute name = "invisible">True</attribute>
+			</xpath>
+			<xpath expr="//div[@class='o_row']" position="attributes">
+				<attribute name = "invisible">True</attribute>
+			</xpath>
+			<xpath expr="//field[@name='car_value']" position="attributes">
+				<attribute name = "invisible">True</attribute>
+			</xpath>
+			<xpath expr="//div[@name='co2']" position="attributes">
+				<attribute name = "invisible">True</attribute>
+				<label for="co2" attrs="{'invisible':[('co2','=',False)]}"/>
+			</xpath>
+
+			<field name="plan_to_change_car" position="attributes">
+				<attribute name = "invisible">True</attribute>
+			</field>
+			<field name="next_assignation_date" position="attributes">
+				<attribute name="invisible">True</attribute>
+			</field>
+			<field name="location" position="attributes">
+				<attribute name="invisible">True</attribute>
+			</field>
+			<field name="mobility_card" position="attributes">
+				<attribute name="invisible">True</attribute>
+			</field>
+
 			<xpath expr="//field[@name='description']/.." position="before">
 				<group string="Assurance">
 					<field name="assureur_id"/>
 					<field name="date_souscription"/>
 					<field name="duree_souscription"/>
-					<field name="date_expiration"/>
+					<field name="date_expiration" readonly="1" force_save="1"/>
 					<field name="montant_souscription"/>
 					<field name="couverture_assurance"/>
 				</group>
 				<group string="Visite Technique">
 					<field name="centre_controle_id"/>
 					<field name="date_visite_technique"/>
-					<field name="date_expiration_visite_technique"/>
 					<field name="duree_visite"/>
+					<field name="date_expiration_visite_technique" readonly="1" force_save="1"/>
 					<field name="montant_visite"/>
 				</group>
 				<group string="Taxes ">
@@ -148,6 +132,8 @@
 				<field name="date_expiration" readonly="1"/>
 				<field name="montant_souscription"/>
 				<field name="couverture_assurance"/>
+				<field name="create_uid" string="User"/>
+				<field name="create_date" string="Date enr"/>
 			</tree>
 		</field>
 	</record>
@@ -165,8 +151,23 @@
 				<field name="date_expiration_visite_technique" readonly="1"/>
 				<field name="duree_visite"/>
 				<field name="montant_visite"/>
-
+				<field name="create_uid" string="User"/>
+				<field name="create_date" string="Date enr"/>
 			</tree>
+		</field>
+	</record>
+
+	<!-- odometre Tree Herité -->
+	<record model="ir.ui.view" id="fleet_vehicule_parc_view_odometer_form">
+		<field name="name">fleet.vehicule.odometer.form</field>
+		<field name="model">fleet.vehicle.odometer</field>
+		<field name="inherit_id" ref="fleet.fleet_vehicle_odometer_view_tree"/>
+		<field name="arch" type="xml">
+			<field name="unit" position="after">
+				<field name="create_uid" string="User"/>
+				<field name="create_date" string="Date enr"/>
+			</field>
+
 		</field>
 	</record>
 
@@ -180,19 +181,11 @@
 
 	<!-- Action fleet.vehicle.parc.visite.technique.history -->
 	<record model="ir.actions.act_window" id="act_fleet_vehicle_parc_visite_technique_history">
-		<field name="name">Historique des visite.techniques</field>
+		<field name="name">Historique des visites techniques</field>
 		<field name="res_model">fleet.vehicle.parc.visite.technique.history</field>
 		<field name="view_mode">tree</field>
 		<field name="context">{'group_by':['vehicule_id']}</field>
 	</record>
-
-	<!-- Action fleet type de conducteurs-->
-	<record model="ir.actions.act_window" id="act_liste_conducteur">
-		<field name="name">Liste des conducteurs</field>
-		<field name="res_model">res.partner</field>
-		<field name="view_mode">tree,form</field>
-	</record>
-
 
 	<!-- vue fleet type de fuel form-->
 	<record model="ir.ui.view" id="view_fleet_fuel_form">
@@ -234,10 +227,11 @@
 			<tree string="Liste suivi du carburant">
 				<field name="dte"/>
 				<field name="vehicle_id"/>
-				<field name="license_plate"/>
 				<field name="conducteur"/>
 				<field name="quantite"/>
 				<field name="total"/>
+				<field name="create_uid" string="User"/>
+				<field name="create_date" string="Date enr"/>
 			</tree>
 		</field>
 	</record>
@@ -247,32 +241,9 @@
 		<field name="name">Suivi du carburant</field>
 		<field name="res_model">fleet.fuel</field>
 		<field name="view_mode">tree,form</field>
+		<field name="context">{'group_by':'vehicle_id'}</field>
 	</record>
 
-
-	<record model="ir.ui.view" id="fleet_vehicle_view_form">
-		<field name="name">fleet.vehicle.form</field>
-		<field name="model">fleet.vehicle</field>
-		<field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
-		<field name="arch" type="xml">
-			<xpath expr="//field[@name='car_value']" position="attributes">
-				<attribute name = "invisible">True</attribute>
-			</xpath>
-			<xpath expr="//div[@name='co2']" position="attributes">
-				<attribute name = "invisible">True</attribute>
-				<label for="co2" attrs="{'invisible':[('co2','=',False)]}"/>
-			</xpath>
-
-
-		</field>
-	</record>
-
-
-	<record model="ir.actions.act_window" id="act_fleet_fuel">
-		<field name="name">Suivi du carburant</field>
-		<field name="res_model">fleet.fuel</field>
-		<field name="view_mode">tree,form</field>
-	</record>
 
 	<record model="ir.ui.menu" id="fleet.fleet_vehicle_model_brand_menu">
 		<field name="name">Constructeurs</field>
@@ -294,11 +265,8 @@
 	<menuitem id="fleet_vehicle_etats_menu" parent="fleet.menu_root" name="Etats" sequence = "99"/>
 	<menuitem id="fleet_vehicle_historique_assurance_menu" parent="fleet_vehicle_etats_menu" name="Historique Assurances" sequence = "1" action="act_fleet_vehicle_parc_assurance_history"/>
 	<menuitem id="fleet_vehicle_historique_visite_technique_menu" parent="fleet_vehicle_etats_menu" name="Historique Visites Techniques" sequence = "2" action="act_fleet_vehicle_parc_visite_technique_history"/>
-	<menuitem id="fleet_vehicle_types_permis_menu" parent="fleet.fleet_configuration" name="Types de permis" sequence = "7" action="act_type_permis"/>
 	<menuitem id="fleet.fleet_vehicle_model_brand_menu" active="False"/>
 	<menuitem id="parc_auto.fleet_vehicle_model_brand_menu" parent="fleet.fleet_configuration" name="Constructeurs" sequence = "6" action="fleet.fleet_vehicle_model_brand_action"/>
-	<menuitem id="fleet_vehicle_drivers" parent="fleet.fleet_configuration" name="Conducteurs" sequence = "8" action="act_liste_conducteur"/>
-
 	<menuitem id="fleet_vehicle_fuel_menu" parent="fleet.fleet_vehicles" name="Suivi du carburant" sequence = "9" action="act_fleet_fuel"/>
 
 </odoo>

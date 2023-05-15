@@ -9,6 +9,7 @@
     'images': ['static/description/auto.jpg'],
     'data': [
         'views/vue_parc.xml',
+        'views/vue_parametres_parc.xml',
         'security/ir.model.access.csv',
     ],
     'installable': True,
