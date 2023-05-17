@@ -118,45 +118,6 @@
 		</field>
 	</record>
 
-	<!-- vue fleet.vehicle.parc.assurance.history tree-->
-	<record model="ir.ui.view" id="view_fleet_vehicle_parc_assurance_history_tree">
-		<field name="name">view.fleet.vehicle.parc.assurance.history.tree</field>
-		<field name="model">fleet.vehicle.parc.assurance.history</field>
-		<field name="priority" eval="16"/>
-		<field name="arch" type="xml">
-			<tree string="Historique des assurances" create="0" delete="0">
-				<field name="vehicule_id"/>
-				<field name="assureur_id"/>
-				<field name="date_souscription"/>
-				<field name="duree_souscription"/>
-				<field name="date_expiration" readonly="1"/>
-				<field name="montant_souscription"/>
-				<field name="couverture_assurance"/>
-				<field name="create_uid" string="User"/>
-				<field name="create_date" string="Date enr"/>
-			</tree>
-		</field>
-	</record>
-
-	<!-- vue fleet.vehicle.parc.visite.technique.history tree-->
-	<record model="ir.ui.view" id="view_fleet_vehicle_parc_visite_technique_history_tree">
-		<field name="name">view.fleet.vehicle.parc.visite.technique.history.tree</field>
-		<field name="model">fleet.vehicle.parc.visite.technique.history</field>
-		<field name="priority" eval="16"/>
-		<field name="arch" type="xml">
-			<tree string="Historique des visites techniques" create="0" delete="0">
-				<field name="vehicule_id"/>
-				<field name="centre_controle_id"/>
-				<field name="date_visite_technique"/>
-				<field name="date_expiration_visite_technique" readonly="1"/>
-				<field name="duree_visite"/>
-				<field name="montant_visite"/>
-				<field name="create_uid" string="User"/>
-				<field name="create_date" string="Date enr"/>
-			</tree>
-		</field>
-	</record>
-
 	<!-- odometre Tree Herité -->
 	<record model="ir.ui.view" id="fleet_vehicule_parc_view_odometer_form">
 		<field name="name">fleet.vehicule.odometer.form</field>
@@ -169,22 +130,6 @@
 			</field>
 
 		</field>
-	</record>
-
-	<!-- Action fleet.vehicle.parc.assurance.history -->
-	<record model="ir.actions.act_window" id="act_fleet_vehicle_parc_assurance_history">
-		<field name="name">Historique des assurances</field>
-		<field name="res_model">fleet.vehicle.parc.assurance.history</field>
-		<field name="view_mode">tree</field>
-		<field name="context">{'group_by':['vehicule_id']}</field>
-	</record>
-
-	<!-- Action fleet.vehicle.parc.visite.technique.history -->
-	<record model="ir.actions.act_window" id="act_fleet_vehicle_parc_visite_technique_history">
-		<field name="name">Historique des visites techniques</field>
-		<field name="res_model">fleet.vehicle.parc.visite.technique.history</field>
-		<field name="view_mode">tree</field>
-		<field name="context">{'group_by':['vehicule_id']}</field>
 	</record>
 
 	<!-- vue fleet type de fuel form-->
@@ -249,22 +194,15 @@
 		<field name="name">Constructeurs</field>
 	</record>
 
-	<!-- <record model="ir.ui.menu" id="fleet.fleet_vehicle_service_types_menu">
-		<field name="name">Juste pour voir</field>
-	</record> -->
 
 	<record id="fleet.fleet_vehicle_model_brand_action" model="ir.actions.act_window">
 		<field name="name">Constructeurs</field>
 	</record>
 
-	<!-- <record id="fleet.fleet_vehicle_service_types_action" model="ir.actions.act_window">
-		<field name="name">Juste pour vérifier type dinter</field>
-	</record> -->
+
 
 	<!-- Menu-->
 	<menuitem id="fleet_vehicle_etats_menu" parent="fleet.menu_root" name="Etats" sequence = "99"/>
-	<menuitem id="fleet_vehicle_historique_assurance_menu" parent="fleet_vehicle_etats_menu" name="Historique Assurances" sequence = "1" action="act_fleet_vehicle_parc_assurance_history"/>
-	<menuitem id="fleet_vehicle_historique_visite_technique_menu" parent="fleet_vehicle_etats_menu" name="Historique Visites Techniques" sequence = "2" action="act_fleet_vehicle_parc_visite_technique_history"/>
 	<menuitem id="fleet.fleet_vehicle_model_brand_menu" active="False"/>
 	<menuitem id="parc_auto.fleet_vehicle_model_brand_menu" parent="fleet.fleet_configuration" name="Constructeurs" sequence = "6" action="fleet.fleet_vehicle_model_brand_action"/>
 	<menuitem id="fleet_vehicle_fuel_menu" parent="fleet.fleet_vehicles" name="Suivi du carburant" sequence = "9" action="act_fleet_fuel"/>

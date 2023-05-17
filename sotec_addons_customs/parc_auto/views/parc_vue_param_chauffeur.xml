@@ -1,46 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-	<!-- ===================== -->
-	<!-- =======TYPE DE PERMIS -->
-	<!-- ===================== -->
-	<!-- vue tree / Type permis-->
-	<record model="ir.ui.view" id="view_fleet_type_permis_tree">
-		<field name="name">view.fleet.type.permis.tree</field>
-		<field name="model">fleet.type.permis</field>
-		<field name="priority" eval="16"/>
-		<field name="arch" type="xml">
-			<tree string="Liste des catégories de permis">
-				<field name="name"/>
-				<field name="description"/>
-			</tree>
-		</field>
-	</record>
-
-	<!-- vue form / Type permis-->
-	<record model="ir.ui.view" id="view_fleet_type_permis_form">
-		<field name="name">view.fleet.type.permis.form</field>
-		<field name="model">fleet.type.permis</field>
-		<field name="priority" eval="16"/>
-		<field name="arch" type="xml">
-			<form string="Liste des categories de permis">
-				<sheet>
-					<group>
-						<field name="name" style="width:50%"/>
-						<field name="description" style="width:50%"/>
-					</group>
-				</sheet>
-			</form>
-		</field>
-	</record>
-
-	<!-- Action / Type permis-->
-	<record model="ir.actions.act_window" id="act_type_permis">
-		<field name="name">Liste des catégories de permis</field>
-		<field name="res_model">fleet.type.permis</field>
-		<field name="view_mode">tree,form</field>
-	</record>
-
-
+	<!-- vue form / Chauffeur -->
 	<record model="ir.ui.view" id="fleet_chauffeur_form">
 		<field name="name">fleet.chauffeur.form</field>
 		<field name="model">fleet.chauffeur</field>
@@ -70,6 +30,7 @@
 		</field>
 	</record>
 
+	<!-- vue tree / Chauffeur -->
 	<record model="ir.ui.view" id="fleet_chauffeur_tree">
 		<field name="name">fleet.chauffeur.tree</field>
 		<field name="model">fleet.chauffeur</field>
@@ -85,17 +46,14 @@
 		</field>
 	</record>
 
-
-	<!-- Action fleet type de conducteurs-->
+	<!-- Action / Chauffeur -->
 	<record model="ir.actions.act_window" id="act_liste_conducteur">
 		<field name="name">Liste des conducteurs</field>
 		<field name="res_model">fleet.chauffeur</field>
 		<field name="view_mode">tree,form</field>
 	</record>
 
-
-	<!-- Menu-->
-	<menuitem id="fleet_vehicle_types_permis_menu" parent="fleet.fleet_configuration" name="Categories de permis" sequence = "7" action="act_type_permis"/>
+	<!-- Menus / Chauffeur -->
 	<menuitem id="fleet_chauffeur" parent="fleet.fleet_configuration" name="Conducteurs" sequence = "8" action="act_liste_conducteur"/>
 </odoo>
 

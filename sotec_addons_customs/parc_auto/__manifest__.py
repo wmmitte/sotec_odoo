@@ -9,7 +9,9 @@
     'images': ['static/description/auto.jpg'],
     'data': [
         'views/vue_parc.xml',
-        'views/vue_parametres_parc.xml',
+        'views/parc_vue_histories.xml',
+        'views/parc_vue_param_type_permis.xml',
+        'views/parc_vue_param_chauffeur.xml',
         'security/ir.model.access.csv',
     ],
     'installable': True,

@@ -2,6 +2,7 @@
 /config
 /sotec-odoo-db-data
 /sotec-odoo-web-data
+/odoo-14.0
 .env
 docker-compose.override.yml
 docker-compose.yml

@@ -51,7 +51,6 @@ class FleetVehicle(models.Model):
         for val in self:
             date_expiration_visite_techniques_exces = (datetime.strptime(str(val.date_visite_technique),'%Y-%m-%d') + relativedelta(months=val.duree_visite)).strftime('%Y-%m-%d')
             val.date_expiration_visite_technique = (datetime.strptime(str(date_expiration_visite_techniques_exces),'%Y-%m-%d') - relativedelta(days = 1)).strftime('%Y-%m-%d')
-
     
     def historisation(self):
         champs_documents_techniques = self.env['fleet.vehicle'].search([('id','=',self.id)])
@@ -59,6 +58,7 @@ class FleetVehicle(models.Model):
         champ_date_assurance = champs_documents_techniques.date_souscription
         champ_visite_centre_controle = champs_documents_techniques.centre_controle_id
         champ_date_visite = champs_documents_techniques.date_visite_technique
+        champ_annee_paiement = champs_documents_techniques.annee_paiement
         
         if champ_assureur or champ_date_assurance:
             self.sudo().env['fleet.vehicle.parc.assurance.history'].create({
@@ -80,38 +80,19 @@ class FleetVehicle(models.Model):
                 'duree_visite': self.duree_visite,
                 'date_expiration_visite_technique': self.date_expiration_visite_technique, 
             })
+
+        if champ_annee_paiement:
+            self.sudo().env['fleet.vehicle.parc.taxe.history'].create({
+                'vehicule_id': self.id,
+                'annee_paiement': champ_annee_paiement, 
+                'montant_taxe': self.montant_taxe,
+                'date_paiement_taxe': self.date_paiement_taxe, 
+            })
     
     def write(self,vals):
         self.historisation()
         return super(FleetVehicle,self).write(vals)
     
-
-class FleetVehicleParcAssuranceHistory(models.Model):
-    _name = 'fleet.vehicle.parc.assurance.history'
-    _order = 'id desc'
-
-    # Historique - Assurance
-    vehicule_id = fields.Many2one('fleet.vehicle', 'Véhicule')
-    assureur_id = fields.Many2one('res.partner', 'Assurance/Assureur')
-    date_souscription = fields.Date('Date Souscription')
-    montant_souscription = fields.Float('Montant')
-    duree_souscription = fields.Integer('Durée (En Mois)')
-    date_expiration = fields.Date('Date Expiration')
-    couverture_assurance = fields.Text('Couverture')
-
-class FleetVehicleParcVisiteTechniqueHistory(models.Model):
-    _name = 'fleet.vehicle.parc.visite.technique.history'
-    _order = 'id desc'
-
-    # Historique - Visite technique
-    vehicule_id = fields.Many2one('fleet.vehicle', 'Véhicule')
-    centre_controle_id = fields.Many2one('res.partner', 'Centre de controle')
-    date_visite_technique = fields.Date('Date Visite')
-    montant_visite = fields.Float('Montant')
-    duree_visite = fields.Integer('Durée (En mois)')
-    date_expiration_visite_technique = fields.Date('Date Expiration')
-
-
 class FleetFuel(models.Model):
     _name = 'fleet.fuel'
     _rec_name = 'vehicle_id'
